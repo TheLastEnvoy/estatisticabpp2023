@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# Configurar a página do Streamlit
+st.set_page_config(page_title="Dashboard Biblioteca Pública", layout="wide")
+
 # Carregar dados
 file_path = "estatisticaBPP_2023.xlsx"
 df = pd.read_excel(file_path)
@@ -49,11 +52,6 @@ st.pyplot(fig)
 st.header("Totais Anuais de Todos os Indicadores")
 totais_anuais = df.groupby('Mês').sum().sum(axis=0)
 st.dataframe(totais_anuais)
-
-# Rodar o Streamlit app
-st.set_page_config(page_title="Dashboard Biblioteca Pública", layout="wide")
-st.title("Dashboard de Indicadores de Atendimento - Biblioteca Pública")
-st.markdown("### Selecione a categoria e o mês para visualizar os dados.")
 
 # Exibir os gráficos e dados
 st.dataframe(df_filtrado)
