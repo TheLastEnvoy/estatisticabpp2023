@@ -6,6 +6,11 @@ import matplotlib.pyplot as plt
 file_path = "estatisticaBPP_2023.xlsx"
 df = pd.read_excel(file_path)
 
+# Verificação da estrutura dos dados
+if 'Mês' not in df.columns:
+    st.error("A coluna 'Mês' não está presente na planilha.")
+    st.stop()
+
 # Sidebar para seleção de categoria e mês
 st.sidebar.title("Filtros")
 categoria = st.sidebar.selectbox("Selecione a Categoria", df.columns[1:])
@@ -46,12 +51,9 @@ totais_anuais = df.groupby('Mês').sum().sum(axis=0)
 st.dataframe(totais_anuais)
 
 # Rodar o Streamlit app
-if __name__ == "__main__":
-    st.set_page_config(page_title="Dashboard Biblioteca Pública", layout="wide")
-    st.title("Dashboard de Indicadores de Atendimento - Biblioteca Pública")
-    st.markdown("### Selecione a categoria e o mês para visualizar os dados.")
+st.set_page_config(page_title="Dashboard Biblioteca Pública", layout="wide")
+st.title("Dashboard de Indicadores de Atendimento - Biblioteca Pública")
+st.markdown("### Selecione a categoria e o mês para visualizar os dados.")
 
-    # Exibir os gráficos e dados
-    st.pyplot(fig)
-    st.dataframe(df_filtrado)
-
+# Exibir os gráficos e dados
+st.dataframe(df_filtrado)
