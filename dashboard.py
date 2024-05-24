@@ -10,6 +10,9 @@ st.title("Dashboard de Indicadores de Atendimento - Biblioteca Pública")
 file_path = "estatisticaBPP_2023.xlsx"
 df = pd.read_excel(file_path, index_col=0)
 
+# Remover linhas em branco
+df.dropna(how='all', inplace=True)
+
 # Verificação da estrutura dos dados
 if df.empty:
     st.error("A planilha está vazia ou o caminho do arquivo está incorreto.")
@@ -20,17 +23,17 @@ st.sidebar.title("Filtros")
 mes = st.sidebar.selectbox("Selecione o Mês", df.columns)
 
 # Filtrar dados de acordo com a seleção do mês
-df_mes = df[mes]
+df_mes = df[[mes]].copy()
 
 # Exibir informações do mês selecionado
 st.subheader(f"Informações de {mes}")
 
 # Gráfico de todos os indicadores no mês selecionado
-fig_bar_mes = px.bar(df_mes, x=df_mes.index, y=df_mes.values, title=f'Totais de Indicadores em {mes}', labels={'x': 'Indicador', 'y': 'Quantidade'})
+fig_bar_mes = px.bar(df_mes, x=df_mes.index, y=df_mes[mes], title=f'Totais de Indicadores em {mes}', labels={'x': 'Indicador', 'y': 'Quantidade'})
 st.plotly_chart(fig_bar_mes)
 
 # Exibir dados filtrados do mês
-st.dataframe(df[[mes]])
+st.dataframe(df_mes)
 
 # Resumo Anual
 st.subheader("Resumo Anual")
@@ -41,16 +44,12 @@ totais_anuais.columns = ['Indicador', 'Total Anual']
 st.write(totais_anuais)
 
 # Gráfico anual comparativo de todos os indicadores
-fig_bar_anual = px.bar(df.T, x=df.T.index, y=df.T.sum(axis=1), title='Comparativo Mensal de Todos os Indicadores', labels={'x': 'Mês', 'y': 'Total'})
+fig_bar_anual = px.bar(df.T, x=df.columns, y=df.sum(axis=0), title='Comparativo Mensal de Todos os Indicadores', labels={'x': 'Mês', 'y': 'Total'})
 st.plotly_chart(fig_bar_anual)
 
 # Gráfico de calor (heatmap) para identificar os meses mais e menos trabalhosos
 fig_heatmap = px.imshow(df, labels=dict(x="Mês", y="Indicador", color="Quantidade"), title="Mapa de Calor dos Indicadores ao Longo do Ano")
 st.plotly_chart(fig_heatmap)
-
-# Mensalidades em um único gráfico
-fig_bar_monthly = px.bar(df, x=df.columns, y=df.index, color_continuous_scale='viridis', title='Indicadores Mensais', labels={'x': 'Mês', 'y': 'Indicador', 'color': 'Quantidade'})
-st.plotly_chart(fig_bar_monthly)
 
 # Configurar o rodapé
 st.markdown("---")
