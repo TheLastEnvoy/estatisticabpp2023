@@ -1,8 +1,6 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 import plotly.express as px
-import seaborn as sns
 
 # Configurar a página do Streamlit
 st.set_page_config(page_title="Dashboard Biblioteca Pública", layout="wide")
@@ -17,44 +15,43 @@ if df.empty:
     st.error("A planilha está vazia ou o caminho do arquivo está incorreto.")
     st.stop()
 
-# Sidebar para seleção de categoria e mês
+# Sidebar para seleção de mês
 st.sidebar.title("Filtros")
-categoria = st.sidebar.selectbox("Selecione a Categoria", df.index)
 mes = st.sidebar.selectbox("Selecione o Mês", df.columns)
 
-# Filtrar dados de acordo com a seleção
-df_filtrado = df.loc[categoria, mes]
+# Filtrar dados de acordo com a seleção do mês
+df_mes = df[mes]
 
-# Layout das informações gerais
-st.subheader(f"Total Mensal de {categoria} em {mes}")
-st.write(f"Quantidade: {df_filtrado}")
-
-# Exibir total anual da categoria selecionada
-total_anual = df.loc[categoria].sum()
-st.subheader(f"Total Anual de {categoria}")
-st.write(f"Quantidade: {total_anual}")
-
-# Gráfico mensal da categoria selecionada
-st.subheader(f"Gráfico Mensal de {categoria}")
-fig_bar = px.bar(df.loc[categoria], x=df.columns, y=df.loc[categoria].values, title=f'Total Mensal de {categoria}')
-st.plotly_chart(fig_bar)
+# Exibir informações do mês selecionado
+st.subheader(f"Informações de {mes}")
 
 # Gráfico de todos os indicadores no mês selecionado
-st.subheader(f"Gráfico de Todos os Indicadores em {mes}")
-fig_pie = px.pie(df, names=df.index, values=df[mes], title=f'Totais de Indicadores em {mes}')
-st.plotly_chart(fig_pie)
+fig_bar_mes = px.bar(df_mes, x=df_mes.index, y=df_mes.values, title=f'Totais de Indicadores em {mes}', labels={'x': 'Indicador', 'y': 'Quantidade'})
+st.plotly_chart(fig_bar_mes)
 
-# Exibir totais anuais de todos os indicadores
-st.subheader("Totais Anuais de Todos os Indicadores")
+# Exibir dados filtrados do mês
+st.dataframe(df[[mes]])
+
+# Resumo Anual
+st.subheader("Resumo Anual")
+
+# Totais anuais de todos os indicadores
 totais_anuais = df.sum(axis=1).reset_index()
 totais_anuais.columns = ['Indicador', 'Total Anual']
 st.write(totais_anuais)
 
-# Exibir os dados filtrados
-st.subheader("Dados Filtrados")
-st.dataframe(df)
+# Gráfico anual comparativo de todos os indicadores
+fig_bar_anual = px.bar(df.T, x=df.T.index, y=df.T.sum(axis=1), title='Comparativo Mensal de Todos os Indicadores', labels={'x': 'Mês', 'y': 'Total'})
+st.plotly_chart(fig_bar_anual)
+
+# Gráfico de calor (heatmap) para identificar os meses mais e menos trabalhosos
+fig_heatmap = px.imshow(df, labels=dict(x="Mês", y="Indicador", color="Quantidade"), title="Mapa de Calor dos Indicadores ao Longo do Ano")
+st.plotly_chart(fig_heatmap)
+
+# Mensalidades em um único gráfico
+fig_bar_monthly = px.bar(df, x=df.columns, y=df.index, color_continuous_scale='viridis', title='Indicadores Mensais', labels={'x': 'Mês', 'y': 'Indicador', 'color': 'Quantidade'})
+st.plotly_chart(fig_bar_monthly)
 
 # Configurar o rodapé
 st.markdown("---")
 st.markdown("Dashboard desenvolvido para visualização dos indicadores de atendimento da Biblioteca Pública.")
-
