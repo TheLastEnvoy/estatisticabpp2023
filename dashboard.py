@@ -1,12 +1,12 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import plotly.express as px
 import seaborn as sns
 
 # Configurar a página do Streamlit
 st.set_page_config(page_title="Dashboard Biblioteca Pública", layout="wide")
 st.title("Dashboard de Indicadores de Atendimento - Biblioteca Pública")
-st.markdown("### Selecione a categoria e o mês para visualizar os dados.")
 
 # Carregar dados
 file_path = "estatisticaBPP_2023.xlsx"
@@ -25,39 +25,36 @@ mes = st.sidebar.selectbox("Selecione o Mês", df.columns)
 # Filtrar dados de acordo com a seleção
 df_filtrado = df.loc[categoria, mes]
 
-# Exibir total mensal da categoria selecionada
-st.header(f"Total Mensal de {categoria} em {mes}")
-st.subheader(df_filtrado)
+# Layout das informações gerais
+st.subheader(f"Total Mensal de {categoria} em {mes}")
+st.write(f"Quantidade: {df_filtrado}")
 
 # Exibir total anual da categoria selecionada
 total_anual = df.loc[categoria].sum()
-st.header(f"Total Anual de {categoria}")
-st.subheader(total_anual)
+st.subheader(f"Total Anual de {categoria}")
+st.write(f"Quantidade: {total_anual}")
 
 # Gráfico mensal da categoria selecionada
-st.header(f"Gráfico Mensal de {categoria}")
-fig, ax = plt.subplots()
-sns.barplot(x=df.columns, y=df.loc[categoria], palette="viridis", ax=ax)
-ax.set_title(f'Total Mensal de {categoria}')
-ax.set_xlabel('Mês')
-ax.set_ylabel('Quantidade')
-st.pyplot(fig)
+st.subheader(f"Gráfico Mensal de {categoria}")
+fig_bar = px.bar(df.loc[categoria], x=df.columns, y=df.loc[categoria].values, title=f'Total Mensal de {categoria}')
+st.plotly_chart(fig_bar)
 
 # Gráfico de todos os indicadores no mês selecionado
-st.header(f"Gráfico de Todos os Indicadores em {mes}")
-fig, ax = plt.subplots(figsize=(10, 6))
-sns.barplot(x=df.index, y=df[mes], palette="viridis", ax=ax)
-ax.set_title(f'Totais de Indicadores em {mes}')
-ax.set_xlabel('Indicadores')
-ax.set_ylabel('Quantidade')
-plt.xticks(rotation=90)
-st.pyplot(fig)
+st.subheader(f"Gráfico de Todos os Indicadores em {mes}")
+fig_pie = px.pie(df, names=df.index, values=df[mes], title=f'Totais de Indicadores em {mes}')
+st.plotly_chart(fig_pie)
 
 # Exibir totais anuais de todos os indicadores
-st.header("Totais Anuais de Todos os Indicadores")
-totais_anuais = df.sum(axis=1)
-st.dataframe(totais_anuais)
+st.subheader("Totais Anuais de Todos os Indicadores")
+totais_anuais = df.sum(axis=1).reset_index()
+totais_anuais.columns = ['Indicador', 'Total Anual']
+st.write(totais_anuais)
 
-# Exibir os gráficos e dados
-st.header("Dados Filtrados")
+# Exibir os dados filtrados
+st.subheader("Dados Filtrados")
 st.dataframe(df)
+
+# Configurar o rodapé
+st.markdown("---")
+st.markdown("Dashboard desenvolvido para visualização dos indicadores de atendimento da Biblioteca Pública.")
+
