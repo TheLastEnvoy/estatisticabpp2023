@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Configurar a página do Streamlit
 st.set_page_config(page_title="Dashboard Biblioteca Pública", layout="wide")
@@ -34,19 +35,22 @@ st.header(f"Total Anual de {categoria}")
 st.subheader(total_anual)
 
 # Gráfico mensal da categoria selecionada
+st.header(f"Gráfico Mensal de {categoria}")
 fig, ax = plt.subplots()
-df.loc[categoria].plot(kind='bar', ax=ax)
+sns.barplot(x=df.columns, y=df.loc[categoria], palette="viridis", ax=ax)
 ax.set_title(f'Total Mensal de {categoria}')
 ax.set_xlabel('Mês')
 ax.set_ylabel('Quantidade')
 st.pyplot(fig)
 
 # Gráfico de todos os indicadores no mês selecionado
+st.header(f"Gráfico de Todos os Indicadores em {mes}")
 fig, ax = plt.subplots(figsize=(10, 6))
-df[mes].plot(kind='bar', ax=ax)
+sns.barplot(x=df.index, y=df[mes], palette="viridis", ax=ax)
 ax.set_title(f'Totais de Indicadores em {mes}')
 ax.set_xlabel('Indicadores')
 ax.set_ylabel('Quantidade')
+plt.xticks(rotation=90)
 st.pyplot(fig)
 
 # Exibir totais anuais de todos os indicadores
@@ -55,4 +59,5 @@ totais_anuais = df.sum(axis=1)
 st.dataframe(totais_anuais)
 
 # Exibir os gráficos e dados
+st.header("Dados Filtrados")
 st.dataframe(df)
