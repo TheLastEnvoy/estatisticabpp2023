@@ -37,10 +37,10 @@ data = {
 df = pd.DataFrame(data)
 
 # Configuração do Streamlit
-st.title("Dashboard da Biblioteca")
+st.title("BPP - Ciências Sociais e Jurídicas 2023")
 
 # Quadros de Métricas Chave
-st.header("Métricas Chave")
+st.header("Quantidades totais de 2023")
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
@@ -57,8 +57,8 @@ with col4:
     st.metric("Livros baixados", sum(df["Livros baixados"]))
 
 # Seleção de Métrica e Tipo de Gráfico
-st.header("Análise de Métricas")
-metric = st.selectbox("Selecione a métrica:", options=df.columns[1:], index=0)
+st.header("Gráficos por atividade")
+metric = st.selectbox("Selecione a atividade:", options=df.columns[1:], index=0)
 chart_type = st.selectbox("Selecione o tipo de gráfico:", ["Linha", "Barra"], index=0)
 
 # Criar gráfico com Plotly
