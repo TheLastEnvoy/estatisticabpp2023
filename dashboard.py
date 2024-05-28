@@ -44,17 +44,17 @@ st.header("Quantidades totais de 2023")
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.metric("Livros recebidos do balcão", sum(df["Livros recebidos do balcão"]))
-    st.metric("Livros devolvidos ao depósito", sum(df["Livros devolvidos ao depósito"]))
+    st.metric("Consultas ao terminal", sum(df["Consultas ao terminal (Pergamum)"]))
+    st.metric("Consultas ao acervo físico", sum(df["Consultas ao acervo físico"]))
 with col2:
     st.metric("Livros devolvidos às estantes", sum(df["Livros devolvidos às estantes"]))
-    st.metric("Consultas ao terminal", sum(df["Consultas ao terminal (Pergamum)"]))
+    st.metric("Livros dispersos", sum(df["Livros dispersos nas mesas e estantes"]))
 with col3:
-    st.metric("Consultas ao acervo físico", sum(df["Consultas ao acervo físico"]))
-    st.metric("Chamadas no telefone", sum(df["Chamadas no telefone"]))
+    st.metric("Livros recebidos do balcão", sum(df["Livros recebidos do balcão"]))
+    st.metric("Livros recebidos de outras seções", sum(df["Livros recebidos de outras seções"]))
 with col4:
-    st.metric("Livros levados para cópia (xerox)", sum(df["Livros levados para cópia (xerox)"]))
-    st.metric("Livros baixados", sum(df["Livros baixados"]))
+    st.metric("Livros da técnica conferidos", sum(df["Livros da técnica conferidos"]))
+    st.metric("Livros inventariados", sum(df["Livros inventariados"]))
 
 # Seleção de Métrica e Tipo de Gráfico
 st.header("Gráficos por atividade")
