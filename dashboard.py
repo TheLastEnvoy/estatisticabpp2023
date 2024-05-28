@@ -39,20 +39,6 @@ df = pd.DataFrame(data)
 # Configuração do Streamlit
 st.title("BPP - Seção de Ciências Sociais e Jurídicas 2023")
 
-# Adicionar CSS customizado para diminuir a fonte das métricas
-st.markdown(
-    """
-    <style>
-    .metric-label {
-        font-size: 0.4rem;
-    }
-    .metric-value {
-        font-size: 0.6rem;
-    }
-    </style>
-    """, unsafe_allow_html=True
-)
-
 # Quadros de Métricas Chave
 st.header("Quantidades totais de 2023")
 col1, col2, col3, col4 = st.columns(4)
