@@ -1,8 +1,6 @@
 import pandas as pd
-import dash
-from dash import dcc, html
-from dash.dependencies import Input, Output
-import plotly.graph_objs as go
+import streamlit as st
+import plotly.express as px
 
 # Dados da planilha
 data = {
@@ -37,33 +35,14 @@ data = {
 
 df = pd.DataFrame(data)
 
-# Inicializando a aplicação Dash
-app = dash.Dash(__name__)
+# Configuração do Streamlit
+st.title("Dashboard da Biblioteca")
 
-app.layout = html.Div([
-    html.H1("Dashboard da Biblioteca"),
-    dcc.Dropdown(
-        id="metric-selector",
-        options=[{"label": col, "value": col} for col in df.columns if col != "Mês"],
-        value="Recebidos do balcão",
-        clearable=False
-    ),
-    dcc.Graph(id="line-chart"),
-])
+# Seleção de Métrica
+metric = st.selectbox("Selecione a métrica:", options=df.columns[1:], index=0)
 
-@app.callback(
-    Output("line-chart", "figure"),
-    [Input("metric-selector", "value")]
-)
-def update_chart(selected_metric):
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=df["Mês"], y=df[selected_metric], mode="lines+markers"))
-    fig.update_layout(
-        title=selected_metric,
-        xaxis_title="Mês",
-        yaxis_title="Quantidade"
-    )
-    return fig
+# Criar gráfico com Plotly Express
+fig = px.line(df, x="Mês", y=metric, title=metric)
 
-if __name__ == '__main__':
-    app.run_server(debug=True)
+# Exibir gráfico no Streamlit
+st.plotly_chart(fig)
