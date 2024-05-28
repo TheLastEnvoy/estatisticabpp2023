@@ -71,5 +71,5 @@ elif chart_type == "Barra":
 st.plotly_chart(fig)
 
 # Adicionar tabela com os dados
-st.header("Dados Brutos")
+st.header("Quadro detalhado")
 st.dataframe(df)
