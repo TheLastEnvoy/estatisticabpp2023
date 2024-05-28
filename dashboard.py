@@ -44,10 +44,10 @@ st.header("Quantidades totais de 2023")
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.metric("Recebidos do balcão", sum(df["Recebidos do balcão"]))
-    st.metric("Devolvidos ao depósito", sum(df["Devolvidos ao depósito"]))
+    st.metric("Livros recebidos do balcão", sum(df["Recebidos do balcão"]))
+    st.metric("Livros devolvidos ao depósito", sum(df["Devolvidos ao depósito"]))
 with col2:
-    st.metric("Devolvidos às estantes", sum(df["Devolvidos às estantes"]))
+    st.metric("Livros devolvidos às estantes", sum(df["Devolvidos às estantes"]))
     st.metric("Consultas ao terminal", sum(df["Consultas ao terminal (Pergamum)"]))
 with col3:
     st.metric("Consultas ao acervo físico", sum(df["Consultas ao acervo físico"]))
