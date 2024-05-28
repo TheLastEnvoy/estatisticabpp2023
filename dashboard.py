@@ -48,7 +48,7 @@ with col1:
     st.metric("Consultas ao acervo físico", sum(df["Consultas ao acervo físico"]))
 with col2:
     st.metric("Livros devolvidos às estantes", sum(df["Livros devolvidos às estantes"]))
-    st.metric("Livros dispersos", sum(df["Livros dispersos nas mesas e estantes"]))
+    st.metric("Livros dispersos nas mesas e estantes", sum(df["Livros dispersos nas mesas e estantes"]))
 with col3:
     st.metric("Livros recebidos do balcão", sum(df["Livros recebidos do balcão"]))
     st.metric("Livros recebidos de outras seções", sum(df["Livros recebidos de outras seções"]))
