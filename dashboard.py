@@ -44,10 +44,10 @@ st.markdown(
     """
     <style>
     .metric-label {
-        font-size: 0.6rem;
+        font-size: 0.4rem;
     }
     .metric-value {
-        font-size: 1.0rem;
+        font-size: 0.6rem;
     }
     </style>
     """, unsafe_allow_html=True
