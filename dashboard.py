@@ -39,22 +39,36 @@ df = pd.DataFrame(data)
 # Configuração do Streamlit
 st.title("BPP - Seção de Ciências Sociais e Jurídicas 2023")
 
+# Adicionar CSS customizado para diminuir a fonte das métricas
+st.markdown(
+    """
+    <style>
+    .metric-label {
+        font-size: 1rem;
+    }
+    .metric-value {
+        font-size: 1.5rem;
+    }
+    </style>
+    """, unsafe_allow_html=True
+)
+
 # Quadros de Métricas Chave
 st.header("Quantidades totais de 2023")
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    st.metric("Consultas ao terminal", sum(df["Consultas ao terminal (Pergamum)"]))
-    st.metric("Consultas ao acervo físico", sum(df["Consultas ao acervo físico"]))
+    st.metric(label="Consultas ao terminal (Pergamum)", value=sum(df["Consultas ao terminal (Pergamum)"]), delta=None, help=None, label_visibility="visible")
+    st.metric(label="Consultas ao acervo físico", value=sum(df["Consultas ao acervo físico"]), delta=None, help=None, label_visibility="visible")
 with col2:
-    st.metric("Livros devolvidos às estantes", sum(df["Livros devolvidos às estantes"]))
-    st.metric("Livros dispersos nas mesas e estantes", sum(df["Livros dispersos nas mesas e estantes"]))
+    st.metric(label="Livros devolvidos às estantes", value=sum(df["Livros devolvidos às estantes"]), delta=None, help=None, label_visibility="visible")
+    st.metric(label="Livros dispersos nas mesas e estantes", value=sum(df["Livros dispersos nas mesas e estantes"]), delta=None, help=None, label_visibility="visible")
 with col3:
-    st.metric("Livros recebidos do balcão", sum(df["Livros recebidos do balcão"]))
-    st.metric("Livros recebidos de outras seções", sum(df["Livros recebidos de outras seções"]))
+    st.metric(label="Livros recebidos do balcão", value=sum(df["Livros recebidos do balcão"]), delta=None, help=None, label_visibility="visible")
+    st.metric(label="Livros recebidos de outras seções", value=sum(df["Livros recebidos de outras seções"]), delta=None, help=None, label_visibility="visible")
 with col4:
-    st.metric("Livros da técnica conferidos", sum(df["Livros da técnica conferidos"]))
-    st.metric("Livros inventariados", sum(df["Livros inventariados"]))
+    st.metric(label="Livros da técnica conferidos", value=sum(df["Livros da técnica conferidos"]), delta=None, help=None, label_visibility="visible")
+    st.metric(label="Livros inventariados", value=sum(df["Livros inventariados"]), delta=None, help=None, label_visibility="visible")
 
 # Seleção de Métrica e Tipo de Gráfico
 st.header("Gráficos por atividade")
