@@ -37,7 +37,7 @@ data = {
 df = pd.DataFrame(data)
 
 # Configuração do Streamlit
-st.title("BPP - Ciências Sociais e Jurídicas 2023")
+st.title("BPP - Seção de Ciências Sociais e Jurídicas 2023")
 
 # Quadros de Métricas Chave
 st.header("Quantidades totais de 2023")
