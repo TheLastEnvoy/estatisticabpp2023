@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 import plotly.express as px
+import plotly.graph_objs as go
 
 # Dados da planilha
 data = {
@@ -38,11 +39,37 @@ df = pd.DataFrame(data)
 # Configuração do Streamlit
 st.title("Dashboard da Biblioteca")
 
-# Seleção de Métrica
-metric = st.selectbox("Selecione a métrica:", options=df.columns[1:], index=0)
+# Quadros de Métricas Chave
+st.header("Métricas Chave")
+col1, col2, col3, col4 = st.columns(4)
 
-# Criar gráfico com Plotly Express
-fig = px.line(df, x="Mês", y=metric, title=metric)
+with col1:
+    st.metric("Recebidos do balcão", sum(df["Recebidos do balcão"]))
+    st.metric("Devolvidos ao depósito", sum(df["Devolvidos ao depósito"]))
+with col2:
+    st.metric("Devolvidos às estantes", sum(df["Devolvidos às estantes"]))
+    st.metric("Consultas ao terminal", sum(df["Consultas ao terminal (Pergamum)"]))
+with col3:
+    st.metric("Consultas ao acervo físico", sum(df["Consultas ao acervo físico"]))
+    st.metric("Chamadas no telefone", sum(df["Chamadas no telefone"]))
+with col4:
+    st.metric("Livros levados para cópia (xerox)", sum(df["Livros levados para cópia (xerox)"]))
+    st.metric("Livros baixados", sum(df["Livros baixados"]))
+
+# Seleção de Métrica e Tipo de Gráfico
+st.header("Análise de Métricas")
+metric = st.selectbox("Selecione a métrica:", options=df.columns[1:], index=0)
+chart_type = st.selectbox("Selecione o tipo de gráfico:", ["Linha", "Barra"], index=0)
+
+# Criar gráfico com Plotly
+if chart_type == "Linha":
+    fig = px.line(df, x="Mês", y=metric, title=f"{metric} - Gráfico de Linha")
+elif chart_type == "Barra":
+    fig = px.bar(df, x="Mês", y=metric, title=f"{metric} - Gráfico de Barra")
 
 # Exibir gráfico no Streamlit
 st.plotly_chart(fig)
+
+# Adicionar tabela com os dados
+st.header("Dados Brutos")
+st.dataframe(df)
