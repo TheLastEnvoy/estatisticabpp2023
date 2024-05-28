@@ -61,7 +61,7 @@ with col1:
     st.metric(label="Consultas ao terminal", value=sum(df["Consultas ao terminal (Pergamum)"]), delta=None, help=None, label_visibility="visible")
     st.metric(label="Consultas ao acervo físico", value=sum(df["Consultas ao acervo físico"]), delta=None, help=None, label_visibility="visible")
 with col2:
-    st.metric(label="Livros devolvidos às estantes", value=sum(df["Livros devolvidos às estantes"]), delta=None, help=None, label_visibility="visible")
+    st.metric(label="Livros reorganizados", value=sum(df["Livros devolvidos às estantes"]), delta=None, help=None, label_visibility="visible")
     st.metric(label="Livros dispersos", value=sum(df["Livros dispersos nas mesas e estantes"]), delta=None, help=None, label_visibility="visible")
 with col3:
     st.metric(label="Livros recebidos do balcão", value=sum(df["Livros recebidos do balcão"]), delta=None, help=None, label_visibility="visible")
